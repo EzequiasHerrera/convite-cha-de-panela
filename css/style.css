@@ -8,7 +8,7 @@
 html,
 body {
     height: 100%;
-    font-family: sans-serif;
+    font-family: "Century Gothic", sans-serif;
 }
 /* Eliminar estilos de listas */
 ul,
@@ -29,7 +29,10 @@ a {
     font-style: normal;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: "Perandory Regular", sans-serif;
     letter-spacing: 6px;
 }
@@ -43,5 +46,64 @@ h1, h2, h3, h4 {
 .bg-orange {
     /* background-color: #fd945a; */
     background-size: cover;
-    background-image: url("../static/img/texture.png")
+    background-image: url("../static/img/texture.png");
+}
+
+.tarjeta {
+    transition: ease-in-out 200ms;
+}
+
+.polaroid {
+    transform: rotate(3deg);
+    background-color: white;
+    padding: 1rem 1rem 2rem 1rem;
+    max-width: 300px;
+    z-index: 50;
+}
+
+.polaroid img {
+    padding-top: 20px;
+}
+
+.zoom-in {
+    cursor: pointer;
+    transition: ease-in-out 200ms;
+}
+
+.zoom-in:hover {
+    transform: scale(1.2);
+    z-index: 100;
+}
+
+.focus-view {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 90%;
+    width: auto;
+    z-index: 200;
+
+}
+
+.overlay {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (min-width: 769px) {
+    .h-custom {
+        height: 100%;
+    }
+    .mt-6 {
+        margin-top: 100px;
+    }
 }
