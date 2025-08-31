@@ -1,0 +1,28 @@
+/* Reset general */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Ajustes adicionales */
+html, body {
+  height: 100%;
+  font-family: sans-serif;
+}
+/* Eliminar estilos de listas */
+ul, ol {
+  list-style: none;
+}
+/* Eliminar estilos de enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* Imágenes responsivas */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+/*_____________________________________________
+
