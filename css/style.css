@@ -1,0 +1,47 @@
+/* Reset general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Ajustes adicionales */
+html,
+body {
+    height: 100%;
+    font-family: sans-serif;
+}
+/* Eliminar estilos de listas */
+ul,
+ol {
+    list-style: none;
+}
+/* Eliminar estilos de enlaces */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/*_____________________________________________*/
+@font-face {
+    font-family: "Perandory Regular";
+    src: url("../static/fonts/Perandory-Regular.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Perandory Regular", sans-serif;
+    letter-spacing: 6px;
+}
+
+.text-orange {
+    color: #cc662f;
+    font-family: "Perandory Regular", sans-serif;
+    letter-spacing: 3px;
+}
+
+.bg-orange {
+    /* background-color: #fd945a; */
+    background-size: cover;
+    background-image: url("../static/img/texture.png")
+}
