@@ -7,23 +7,15 @@ const showNextPicture = () => {
 };
 
 polaroidImg.addEventListener("click", () => {
+  const formato = "jpg";
+
   const src = polaroidImg.src;
+  const partes = src.split("nos");
+  const numeroYFormato = partes[1]; // ej: "3.jpg"
+  const [numero] = numeroYFormato.split(".");
+  const nuevoNumero = parseInt(numero) + 1;
 
-  // Buscar el número en el nombre del archivo (ej: nos3.jpg)
-  const match = src.match(/nos(\d+)/);
-
-  if (match) {
-    const numero = parseInt(match[1]); // Extrae el número como entero
-    const nuevoNumero = numero + 1;
-
-    // Reemplazar el número en el src
-    const nuevoSrc = src.replace(/nos\d+/, `nos${nuevoNumero}`);
-    polaroidImg.src = nuevoSrc;
-
-    console.log("Nueva imagen:", nuevoSrc);
-  } else {
-    console.log("No se encontró número en el src");
-  }
+  polaroidImg.src = `${partes[0]}nos${nuevoNumero}.${formato}`;
 });
 
 const toggleFocusView = () => {
