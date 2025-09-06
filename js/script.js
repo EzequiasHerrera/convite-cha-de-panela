@@ -13,8 +13,8 @@ polaroidImg.addEventListener("click", () => {
   const partes = src.split("nos");
   const numeroYFormato = partes[1]; // ej: "3.jpg"
   const [numero] = numeroYFormato.split(".");
-  const nuevoNumero = parseInt(numero) + 1;
-
+  let nuevoNumero = parseInt(numero) + 1;
+  if (nuevoNumero > 7) nuevoNumero = 1;
   polaroidImg.src = `${partes[0]}nos${nuevoNumero}.${formato}`;
 });
 
