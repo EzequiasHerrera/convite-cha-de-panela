@@ -1,151 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Chá de Panela</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="css/style.css" />
-        <script src="js/script.js" defer></script>
-    </head>
-    <body class="bg-light text-dark">
-        <!-- Sección 1: Sobre Nosotros -->
-        <section
-            class="d-flex flex-column text-center py-5 bg-orange h-custom shadow"
-        >
-            <h1 class="display-6 px-2 fw-bold">Ezequias & Nicole</h1>
-            <h2 class="h4 text-muted mb-3">18 de Outubro de 2025</h2>
-            <div
-                class="d-flex flex-md-row flex-column align-items-center justify-content-center mx-5 h-100 gap-3"
-            >
-                <p
-                    class="text-orange p-3 bg-light shadow text-center zoom-in"
-                    style="max-width: 300px"
-                >
-                    Estamos ansiosos para viver esse momento especial e
-                    aguardamos vocês no nosso Chá de Panela para celebrar
-                    juntos!
-                </p>
-                <div class="polaroid shadow zoom-in">
-                    <img
-                        class="img-fluid"
-                        src="./static/img/nos.png"
-                        alt="nosotros"
-                    />
-                    <img
-                        src="static/img/corazones.png"
-                        alt="corazones"
-                        class="img-fluid"
-                        style="max-width: 60px"
-                    />
-                </div>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chá de Panela</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="js/script.js" defer></script>
+</head>
+
+<body class="bg-light text-dark">
+    <!-- Sección 1: Sobre Nosotros -->
+    <section class="d-flex flex-column text-center py-5 bg-orange h-custom shadow">
+        <h1 class="display-6 px-2 fw-bold">Ezequias & Nicole</h1>
+        <h2 class="h4 text-muted mb-3">18 de Outubro de 2025</h2>
+        <div class="d-flex flex-md-row flex-column align-items-center justify-content-center mx-5 h-100 gap-3">
+            <p class="text-orange p-3 bg-light shadow text-center zoom-in" style="max-width: 300px">
+                Estamos ansiosos para viver esse momento especial e
+                aguardamos vocês no nosso Chá de Panela para celebrar
+                juntos!
+            </p>
+            <div class="polaroid shadow zoom-in">
+                <img id="polaroid-img" class="img-fluid" src="./static/img/nos1.png" alt="nosotros" />
+                <img src="static/img/corazones.png" alt="corazones" class="img-fluid" style="max-width: 60px" />
             </div>
-        </section>
+        </div>
+    </section>
 
-        <div id="overlay" class="overlay d-none"></div>
+    <div id="overlay" class="overlay d-none"></div>
 
-        <section class="d-flex flex-column flex-md-row wrap px-md-5 py-3 mt-6">
-            <!-- Sección 2: Fiesta -->
-            <div class="container text-center col-12 col-md-6 mb-4 mb-md-0">
-                <!-- <h2 class="h3 mb-4">🎉 Festa</h2> -->
-                <div class="mb-4">
-                    <img
-                        id="invitation-card"
-                        src="./static/img/convite.png"
-                        alt="Convite"
-                        class="invitation-card img-fluid rounded shadow col-md-6 zoom-in"
-                    />
-                </div>
-                <p class="mb-2"><strong>Data:</strong> 18 de Outubro de 2025</p>
-                <p class="mb-4"><strong>Horário:</strong> 18:00h</p>
-                <a
-                    href="https://maps.app.goo.gl/rQj48yg697kKN5jBA"
-                    target="_blank"
-                    class="btn btn-primary"
-                >
-                    Como Chegar
-                </a>
+    <section class="d-flex flex-column flex-md-row wrap px-md-5 py-3 mt-6">
+        <!-- Sección 2: Fiesta -->
+        <div class="container text-center col-12 col-md-6 mb-4 mb-md-0">
+            <!-- <h2 class="h3 mb-4">🎉 Festa</h2> -->
+            <div class="mb-4">
+                <img id="invitation-card" src="./static/img/convite.png" alt="Convite"
+                    class="invitation-card img-fluid rounded shadow col-md-6 zoom-in" />
             </div>
+            <p class="mb-2"><strong>Data:</strong> 18 de Outubro de 2025</p>
+            <p class="mb-4"><strong>Horário:</strong> 18:00h</p>
+            <a href="https://maps.app.goo.gl/rQj48yg697kKN5jBA" target="_blank" class="btn btn-primary">
+                Como Chegar
+            </a>
+        </div>
 
-            <!--Imagen de corazón divisor-->
-            <div class="d-block d-md-none d-flex justify-content-center p-3">
-                <img
-                    src="static/img/corazones.png"
-                    alt="corazones"
-                    class="img-fluid"
-                    style="max-width: 60px"
-                />
-            </div>
+        <!--Imagen de corazón divisor-->
+        <div class="d-block d-md-none d-flex justify-content-center p-3">
+            <img src="static/img/corazones.png" alt="corazones" class="img-fluid" style="max-width: 60px" />
+        </div>
 
-            <!-- Sección 3: Lista & Confirmación -->
-            <div class="container col-12 col-md-6">
-                <div class="row g-4">
-                    <!-- Card Lista de Presentes -->
-                    <div class="col-md-12">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body text-center">
-                                <h5 class="card-title text-orange">
-                                    🎁 LISTA DE PRESENTES
-                                </h5>
-                                <p class="card-text">
-                                    Veja nossa lista de presentes na Havan.
-                                </p>
-                                <a
-                                    href="https://lista.havan.com.br/Convidado/ItensListaPresente/860309"
-                                    target="_blank"
-                                    class="btn btn-success"
-                                >
-                                    Ver Lista
-                                </a>
-                            </div>
+        <!-- Sección 3: Lista & Confirmación -->
+        <div class="container col-12 col-md-6">
+            <div class="row g-4">
+                <!-- Card Lista de Presentes -->
+                <div class="col-md-12">
+                    <div class="card h-100 shadow-sm bg-orange">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-darkorange">
+                                🎁 LISTA DE PRESENTES
+                            </h5>
+                            <p class="card-text">
+                                Veja nossa lista de presentes na Havan.
+                            </p>
+                            <a href="https://lista.havan.com.br/Convidado/ItensListaPresente/860309" target="_blank"
+                                class="btn btn-success">
+                                Ver Lista
+                            </a>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Card Confirmar Presença -->
-                    <div class="col-md-12">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body text-center">
-                                <h5 class="card-title text-orange">
-                                    📋 CONFIRMAR PRESENÇA
-                                </h5>
-                                <p class="card-text">
-                                    Digite seu nome para confirmar presença.
-                                </p>
-                                <input
-                                    type="text"
-                                    class="form-control mb-3"
-                                    placeholder="Seu nome"
-                                    disabled
-                                />
-                                <div
-                                    class="d-flex justify-content-center gap-3"
-                                >
-                                    <button
-                                        class="btn btn-outline-success"
-                                        disabled
-                                    >
-                                        Sim
-                                    </button>
-                                    <button
-                                        class="btn btn-outline-danger"
-                                        disabled
-                                    >
-                                        Não
-                                    </button>
-                                </div>
-                                <small class="text-muted d-block mt-2"
-                                    >Funcionalidade em breve</small
-                                >
-                            </div>
+                <!-- Card Confirmar Presença -->
+                <div class="col-md-12">
+                    <div class="card h-100 shadow-sm bg-orange">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-darkorange">
+                                📋 CONFIRMAR PRESENÇA
+                            </h5>
+                            <p class="card-text">
+                                Digite seu nome para confirmar presença.
+                            </p>
+                            <input type="text" id="buscador" class="form-control mb-3 bg-gray-500"
+                                placeholder="Digite seu nome" />
+                            <div class="" id="resultados"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

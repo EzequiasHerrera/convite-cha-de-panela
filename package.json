@@ -1,0 +1,19 @@
+{
+  "name": "convite-cha-de-panela",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EzequiasHerrera/convite-cha-de-panela.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EzequiasHerrera/convite-cha-de-panela/issues"
+  },
+  "homepage": "https://github.com/EzequiasHerrera/convite-cha-de-panela#readme",
+  "description": ""
+}
