@@ -27,148 +27,206 @@ const toggleFocusView = () => {
 invitation.onclick = toggleFocusView;
 overlay.onclick = toggleFocusView;
 
+//--------------SUPABASE---------------------------------
+
 const supabase = window.supabase.createClient(
   "https://orameskzbxlwtrguiwtu.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yYW1lc2t6Ynhsd3RyZ3Vpd3R1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxNjg2OTIsImV4cCI6MjA3Mjc0NDY5Mn0.Miwr-ai01F0oLbmA7fN_hIBiLDOuCTWIaPJLyRpTU5A"
 );
 
-const buscador = document.getElementById("buscador");
-const resultados = document.getElementById("resultados");
+//Recibo la caja de texto
+const inputBox = document.getElementById("buscador");
 
-buscador.addEventListener("input", async () => {
-  const filtro = buscador.value.toLowerCase();
+//Busco el contenedor resultados
+const divResultados = document.getElementById("resultados");
 
+inputBox.addEventListener("input", async () => {
+  //filtro contiene la palabra escrita en el input
+  const filtro = inputBox.value.toLowerCase();
+
+  //Espera mínimo 3 letras antes de buscar
+  if (filtro.length < 3) {
+    divResultados.innerHTML = "";
+    return;
+  }
+
+  //Traigo todos los invitados de supabase
   const { data: invitados, error } = await supabase
     .from("invitados")
     .select("*");
 
+  //Verifico si hay errores
   if (error) {
-    resultados.innerHTML = "Error al cargar invitados";
+    divResultados.innerHTML = "Error al cargar invitados";
     return;
   }
 
-  resultados.innerHTML = "";
+  //Vacío la lista si ya tenía contenido
+  divResultados.innerHTML = "";
 
+  //Para cada invitado
   for (const invitado of invitados) {
-    if (filtro.length < 3) return; // Espera mínimo 2 letras antes de buscar
+    //Si el invitado no cumple con las condiciones del filtro no lo considero
     if (!invitado.nombre.toLowerCase().includes(filtro)) continue;
 
+    //👶🏻 Traigo todos los hijos que coincidan con el ID del invitado
     const { data: hijos } = await supabase
       .from("hijos")
       .select("*")
       .eq("tutor_id", invitado.id);
 
-    const div = document.createElement("div");
-    div.className =
-      "invitado d-flex flex-column align-items-start bg-body-tertiary p-3 rounded m-2";
+    //Creo un <div> para poner el nombre y los botones
+    const container = document.createElement("div");
+    container.className =
+      "invitado d-flex flex-row justify-content-between align-items-start bg-body-tertiary p-3 rounded m-2 shadow";
 
+    //Creo un <p> para poner el nombre
     const nombre = document.createElement("p");
     nombre.className = "m-0";
     nombre.textContent = invitado.nombre;
-    div.appendChild(nombre);
 
-    const botones = document.createElement("div");
-    botones.className = "d-flex justify-content-center gap-3";
+    //Creo un <div> para poner los botones
+    const divBotones = document.createElement("div");
+    divBotones.className = "d-flex justify-content-center gap-3";
 
+    //Inserto dentro del container la etiqueta <p> con el NOMBRE
+    container.appendChild(nombre);
+
+    //------BOTONES SIM Y NAO -------------------------------------
+    //🟩
     const btnSim = document.createElement("button");
     btnSim.className = "btn btn-outline-success";
-    btnSim.textContent = "Sim";
+    btnSim.textContent = "Vou";
 
+    //🟥
     const btnNao = document.createElement("button");
     btnNao.className = "btn btn-outline-danger";
-    btnNao.textContent = "Não";
+    btnNao.textContent = "Não vou";
 
-    const actualizarBotones = (estado) => {
-      if (estado === "confirmado") {
-        btnSim.classList.add("active");
-        btnNao.classList.remove("active");
-      } else {
-        btnSim.classList.remove("active");
-        btnNao.classList.add("active");
-      }
-    };
+    //⬜
+    const btnNaoSei = document.createElement("button");
+    btnNaoSei.className = "btn btn-outline-secondary";
+    btnNaoSei.textContent = "Ainda não sei";
 
-    actualizarBotones(invitado.estado);
-
+    //Seteo el funcionamiento de los botones si y no
     btnSim.addEventListener("click", async () => {
-      await supabase
-        .from("invitados")
-        .update({ estado: "confirmado" })
-        .eq("id", invitado.id);
-      actualizarBotones("confirmado");
+      updateInvitadoState("confirmado", "invitados", invitado.id);
+      toggleButtonState("confirmado");
     });
 
     btnNao.addEventListener("click", async () => {
-      await supabase
-        .from("invitados")
-        .update({ estado: "pendiente" })
-        .eq("id", invitado.id);
-      actualizarBotones("pendiente");
+      updateInvitadoState("denegado", "invitados", invitado.id);
+      toggleButtonState("denegado");
     });
 
-    botones.appendChild(btnSim);
-    botones.appendChild(btnNao);
-    div.appendChild(botones);
+    btnNaoSei.addEventListener("click", async () => {
+      updateInvitadoState("pendente", "invitados", invitado.id);
+      toggleButtonState("pendente");
+    });
 
-    if (hijos.length > 0) {
-      const ul = document.createElement("ul");
-      ul.className = "hijos pt-2";
+    const toggleButtonState = (estado) => {
+      if (estado === "confirmado") {
+        btnSim.classList.add("active");
+        btnNao.classList.remove("active");
+        btnNaoSei.classList.remove("active");
+      } else if (estado == "denegado") {
+        btnSim.classList.remove("active");
+        btnNao.classList.add("active");
+        btnNaoSei.classList.remove("active");
+      } else {
+        btnSim.classList.remove("active");
+        btnNao.classList.remove("active");
+        btnNaoSei.classList.add("active");
+      }
+    };
 
-      hijos.forEach((hijo) => {
-        const li = document.createElement("li");
+    const updateInvitadoState = async (state, table, id) => {
+      toggleButtonState(state);
 
-        const hijoNombre = document.createElement("h6");
-        hijoNombre.textContent = hijo.nombre;
-        li.appendChild(hijoNombre);
+      console.log(`Actualizando estado de ${id} en la tabla ${table} con el estado ${state}`)
 
-        const botonesHijo = document.createElement("div");
-        botonesHijo.className = "d-flex justify-content-center gap-3";
+      const { error } = await supabase
+        .from(table)
+        .update({ estado: state })
+        .eq("id", id);
 
-        const btnHijoSim = document.createElement("button");
-        btnHijoSim.className = "btn btn-outline-success btn-sm";
-        btnHijoSim.textContent = "Sim";
+      if (error) {
+        console.error("Error al confirmar invitado:", error);
+        return;
+      }
+    };
 
-        const btnHijoNao = document.createElement("button");
-        btnHijoNao.className = "btn btn-outline-danger btn-sm";
-        btnHijoNao.textContent = "Não";
+    //Coloco los botones dentro del contenedor de botones
+    divBotones.appendChild(btnSim);
+    divBotones.appendChild(btnNao);
+    divBotones.appendChild(btnNaoSei);
 
-        const actualizarBotonesHijo = (estado) => {
-          if (estado === "confirmado") {
-            btnHijoSim.classList.add("active");
-            btnHijoNao.classList.remove("active");
-          } else {
-            btnHijoSim.classList.remove("active");
-            btnHijoNao.classList.add("active");
-          }
-        };
+    //Agrego el contenedor con botones al contenedor padre
+    container.appendChild(divBotones);
 
-        actualizarBotonesHijo(hijo.estado);
+    toggleButtonState(invitado.estado);
 
-        btnHijoSim.addEventListener("click", async () => {
-          await supabase
-            .from("hijos")
-            .update({ estado: "confirmado" })
-            .eq("id", hijo.id);
-          actualizarBotonesHijo("confirmado");
-        });
+    // if (hijos.length > 0) {
+    //   const ul = document.createElement("ul");
+    //   ul.className = "hijos pt-2";
 
-        btnHijoNao.addEventListener("click", async () => {
-          await supabase
-            .from("hijos")
-            .update({ estado: "pendiente" })
-            .eq("id", hijo.id);
-          actualizarBotonesHijo("pendiente");
-        });
+    //   hijos.forEach((hijo) => {
+    //     const li = document.createElement("li");
 
-        botonesHijo.appendChild(btnHijoSim);
-        botonesHijo.appendChild(btnHijoNao);
-        li.appendChild(botonesHijo);
-        ul.appendChild(li);
-      });
+    //     const hijoNombre = document.createElement("h6");
+    //     hijoNombre.textContent = hijo.nombre;
+    //     li.appendChild(hijoNombre);
 
-      div.appendChild(ul);
-    }
+    //     const botonesHijo = document.createElement("div");
+    //     botonesHijo.className = "d-flex justify-content-center gap-3";
 
-    resultados.appendChild(div);
+    //     const btnHijoSim = document.createElement("button");
+    //     btnHijoSim.className = "btn btn-outline-success btn-sm";
+    //     btnHijoSim.textContent = "Sim";
+
+    //     const btnHijoNao = document.createElement("button");
+    //     btnHijoNao.className = "btn btn-outline-danger btn-sm";
+    //     btnHijoNao.textContent = "Não";
+
+    //     const actualizarBotonesHijo = (estado) => {
+    //       if (estado === "confirmado") {
+    //         btnHijoSim.classList.add("active");
+    //         btnHijoNao.classList.remove("active");
+    //       } else {
+    //         btnHijoSim.classList.remove("active");
+    //         btnHijoNao.classList.add("active");
+    //       }
+    //     };
+
+    //     actualizarBotonesHijo(hijo.estado);
+
+    //     btnHijoSim.addEventListener("click", async () => {
+    //       await supabase
+    //         .from("hijos")
+    //         .update({ estado: "confirmado" })
+    //         .eq("id", hijo.id);
+    //       actualizarBotonesHijo("confirmado");
+    //     });
+
+    //     btnHijoNao.addEventListener("click", async () => {
+    //       await supabase
+    //         .from("hijos")
+    //         .update({ estado: "pendiente" })
+    //         .eq("id", hijo.id);
+    //       actualizarBotonesHijo("pendiente");
+    //     });
+
+    //     botonesHijo.appendChild(btnHijoSim);
+    //     botonesHijo.appendChild(btnHijoNao);
+    //     li.appendChild(botonesHijo);
+    //     ul.appendChild(li);
+    //   });
+
+    //   container.appendChild(ul);
+    // }
+
+    // divResultados.innerHTML = "";
+
+    divResultados.appendChild(container);
   }
 });
