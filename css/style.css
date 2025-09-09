@@ -8,7 +8,7 @@
 html,
 body {
     height: 100%;
-    font-family: "Century Gothic", sans-serif;
+  font-family: "Century Gothic", sans-serif;
 }
 /* Eliminar estilos de listas */
 ul,
@@ -25,6 +25,13 @@ a {
 @font-face {
     font-family: "Perandory Regular";
     src: url("../static/fonts/Perandory-Regular.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Century Gothic";
+    src: url("../static/fonts/weezerfont.ttf") format("opentype");
     font-weight: normal;
     font-style: normal;
 }

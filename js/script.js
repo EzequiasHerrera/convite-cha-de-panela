@@ -78,7 +78,7 @@ inputBox.addEventListener("input", async () => {
     //Creo un <div> para poner el nombre y los botones
     const container = document.createElement("div");
     container.className =
-      "invitado d-flex flex-row justify-content-between align-items-start bg-body-tertiary p-3 rounded m-2 shadow";
+      "invitado d-flex flex-row justify-content-between align-items-start bg-body-tertiary p-1 rounded shadow";
 
     //Creo un <p> para poner el nombre
     const nombre = document.createElement("p");
@@ -143,7 +143,9 @@ inputBox.addEventListener("input", async () => {
     const updateInvitadoState = async (state, table, id) => {
       toggleButtonState(state);
 
-      console.log(`Actualizando estado de ${id} en la tabla ${table} con el estado ${state}`)
+      console.log(
+        `Actualizando estado de ${id} en la tabla ${table} con el estado ${state}`
+      );
 
       const { error } = await supabase
         .from(table)
@@ -166,67 +168,97 @@ inputBox.addEventListener("input", async () => {
 
     toggleButtonState(invitado.estado);
 
-    // if (hijos.length > 0) {
-    //   const ul = document.createElement("ul");
-    //   ul.className = "hijos pt-2";
-
-    //   hijos.forEach((hijo) => {
-    //     const li = document.createElement("li");
-
-    //     const hijoNombre = document.createElement("h6");
-    //     hijoNombre.textContent = hijo.nombre;
-    //     li.appendChild(hijoNombre);
-
-    //     const botonesHijo = document.createElement("div");
-    //     botonesHijo.className = "d-flex justify-content-center gap-3";
-
-    //     const btnHijoSim = document.createElement("button");
-    //     btnHijoSim.className = "btn btn-outline-success btn-sm";
-    //     btnHijoSim.textContent = "Sim";
-
-    //     const btnHijoNao = document.createElement("button");
-    //     btnHijoNao.className = "btn btn-outline-danger btn-sm";
-    //     btnHijoNao.textContent = "Não";
-
-    //     const actualizarBotonesHijo = (estado) => {
-    //       if (estado === "confirmado") {
-    //         btnHijoSim.classList.add("active");
-    //         btnHijoNao.classList.remove("active");
-    //       } else {
-    //         btnHijoSim.classList.remove("active");
-    //         btnHijoNao.classList.add("active");
-    //       }
-    //     };
-
-    //     actualizarBotonesHijo(hijo.estado);
-
-    //     btnHijoSim.addEventListener("click", async () => {
-    //       await supabase
-    //         .from("hijos")
-    //         .update({ estado: "confirmado" })
-    //         .eq("id", hijo.id);
-    //       actualizarBotonesHijo("confirmado");
-    //     });
-
-    //     btnHijoNao.addEventListener("click", async () => {
-    //       await supabase
-    //         .from("hijos")
-    //         .update({ estado: "pendiente" })
-    //         .eq("id", hijo.id);
-    //       actualizarBotonesHijo("pendiente");
-    //     });
-
-    //     botonesHijo.appendChild(btnHijoSim);
-    //     botonesHijo.appendChild(btnHijoNao);
-    //     li.appendChild(botonesHijo);
-    //     ul.appendChild(li);
-    //   });
-
-    //   container.appendChild(ul);
-    // }
-
-    // divResultados.innerHTML = "";
+    divResultados.innerHTML = "";
 
     divResultados.appendChild(container);
+
+    const titleResponsable = document.createElement("p");
+    titleResponsable.textContent = "Confirma em nome de:";
+    titleResponsable.className = "text-start mb-0 mt-2";
+    divResultados.appendChild(titleResponsable);
+
+    //👶🏻 Si tiene hijos
+    if (hijos.length > 0) {
+      const containerHijos = document.createElement("div");
+      containerHijos.className = "hijos d-flex flex-row align-items-start";
+
+      hijos.forEach((hijo) => {
+        const li = document.createElement("div");
+        li.className = "bg-body-tertiary p-1 rounded shadow";
+
+        const hijoNombre = document.createElement("h6");
+        hijoNombre.textContent = hijo.nombre;
+        li.appendChild(hijoNombre);
+
+        const botonesHijo = document.createElement("div");
+        botonesHijo.className = "d-flex justify-content-center gap-3";
+
+        const btnHijoSim = document.createElement("button");
+        btnHijoSim.className = "btn btn-outline-success btn-sm";
+        btnHijoSim.textContent = "Sim";
+
+        const btnHijoNao = document.createElement("button");
+        btnHijoNao.className = "btn btn-outline-danger btn-sm";
+        btnHijoNao.textContent = "Não";
+
+        const btnHijoNaoSei = document.createElement("button");
+        btnHijoNaoSei.className = "btn btn-outline-secondary btn-sm";
+        btnHijoNaoSei.textContent = "Ainda não sei";
+
+        const actualizarBotonesHijo = (estado) => {
+          if (estado === "confirmado") {
+            btnHijoSim.classList.add("active");
+            btnHijoNao.classList.remove("active");
+            btnHijoNaoSei.classList.remove("active");
+          } else if (estado == "denegado") {
+            btnHijoSim.classList.remove("active");
+            btnHijoNao.classList.add("active");
+            btnHijoNaoSei.classList.remove("active");
+          } else {
+            btnHijoSim.classList.remove("active");
+            btnHijoNao.classList.remove("active");
+            btnHijoNaoSei.classList.add("active");
+          }
+        };
+
+        const updateHijoState = async (state, table, id) => {
+          actualizarBotonesHijo(state);
+
+          const { error } = await supabase
+            .from(table)
+            .update({ estado: state })
+            .eq("id", id);
+
+          if (error) {
+            console.error("Error al confirmar invitado:", error);
+            return;
+          }
+        };
+
+        actualizarBotonesHijo(hijo.estado);
+
+        btnHijoSim.addEventListener("click", async () => {
+          updateHijoState("confirmado", "hijos", hijo.id)
+        });
+
+        btnHijoNao.addEventListener("click", async () => {
+          updateHijoState("denegado", "hijos", hijo.id)
+        });
+
+        btnHijoNaoSei.addEventListener("click", async () => {
+          updateHijoState("pendente", "hijos", hijo.id)
+        });
+
+        
+
+        botonesHijo.appendChild(btnHijoSim);
+        botonesHijo.appendChild(btnHijoNao);
+        botonesHijo.appendChild(btnHijoNaoSei);
+        li.appendChild(botonesHijo);
+        containerHijos.appendChild(li);
+      });
+
+      divResultados.appendChild(containerHijos);
+    }
   }
 });
