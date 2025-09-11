@@ -156,6 +156,8 @@ inputBox.addEventListener("input", async () => {
         console.error("Error al confirmar invitado:", error);
         return;
       }
+
+      
     };
 
     //Coloco los botones dentro del contenedor de botones
@@ -174,13 +176,13 @@ inputBox.addEventListener("input", async () => {
 
     const titleResponsable = document.createElement("p");
     titleResponsable.textContent = "Confirma em nome de:";
-    titleResponsable.className = "text-start mb-0 mt-2";
+    titleResponsable.className = "text-center mb-0 mt-2";
     divResultados.appendChild(titleResponsable);
 
     //👶🏻 Si tiene hijos
     if (hijos.length > 0) {
       const containerHijos = document.createElement("div");
-      containerHijos.className = "hijos d-flex flex-row align-items-start";
+      containerHijos.className = "hijos d-flex flex-row flex-wrap justify-content-center";
 
       hijos.forEach((hijo) => {
         const li = document.createElement("div");
@@ -249,7 +251,7 @@ inputBox.addEventListener("input", async () => {
           updateHijoState("pendente", "hijos", hijo.id)
         });
 
-        
+
 
         botonesHijo.appendChild(btnHijoSim);
         botonesHijo.appendChild(btnHijoNao);
@@ -262,3 +264,20 @@ inputBox.addEventListener("input", async () => {
     }
   }
 });
+
+
+const showConfirmation = () => {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `
+    <div class="position-fixed bg-success p-3 top-0 w-100 text-white rounded" style="z-index: 1000;">
+      ✅ Cambio realizado
+    </div>
+  `;
+
+  const confirmation = wrapper.firstChild;
+  document.body.appendChild(confirmation);
+
+  setTimeout(() => {
+    confirmation.remove(); // 👈 Lo elimina del DOM
+  }, 2000); // 2 segundos de visibilidad
+};
