@@ -1,28 +1,56 @@
 const invitation = document.getElementById("invitation-card");
 const overlay = document.getElementById("overlay");
 const polaroidImg = document.getElementById("polaroid-img");
+const finger = document.getElementById("finger-pointing");
+
+//CONTADOR==============================================
+const destino = new Date("2025-10-10T00:00:00"); // Fecha objetivo
+const contador = document.getElementById("cuenta-regresiva");
+const actualizarCuenta = () => {
+  const ahora = new Date();
+  const diferencia = destino - ahora;
+  
+  if (diferencia <= 0) {
+    contador.textContent = "🎉 Chegou o grande dia!";
+    clearInterval(intervalo);
+    return;
+  }
+  
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+  const segundos = Math.floor((diferencia / 1000) % 60);
+
+  contador.textContent = `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+};
+const intervalo = setInterval(actualizarCuenta, 1000);
+actualizarCuenta(); // Ejecutar una vez al cargar
+//==============================================
 
 const showNextPicture = () => {
   polaroidImg.src;
 };
 
 polaroidImg.addEventListener("click", () => {
+  finger.className = "d-none"
   const formato = "jpg";
-
   const src = polaroidImg.src;
   const partes = src.split("nos");
   const numeroYFormato = partes[1]; // ej: "3.jpg"
   const [numero] = numeroYFormato.split(".");
   let nuevoNumero = parseInt(numero) + 1;
-  if (nuevoNumero > 7) nuevoNumero = 1;
+  if (nuevoNumero > 9) nuevoNumero = 1;
   polaroidImg.src = `${partes[0]}nos${nuevoNumero}.${formato}`;
 });
 
 const toggleFocusView = () => {
   invitation.classList.toggle("focus-view");
-  invitation.classList.toggle("zoom-in");
   overlay.classList.toggle("d-none");
 };
+
+const hideFingerPointing = () => {
+  finger.classList.add("d-none");
+}
 
 invitation.onclick = toggleFocusView;
 overlay.onclick = toggleFocusView;
@@ -78,7 +106,7 @@ inputBox.addEventListener("input", async () => {
     //Creo un <div> para poner el nombre y los botones
     const container = document.createElement("div");
     container.className =
-      "invitado d-flex flex-row justify-content-between align-items-start bg-body-tertiary p-1 rounded shadow";
+      "invitado d-flex flex-row flex-wrap justify-content-between align-items-center bg-body-tertiary p-1 rounded shadow";
 
     //Creo un <p> para poner el nombre
     const nombre = document.createElement("p");
@@ -110,16 +138,19 @@ inputBox.addEventListener("input", async () => {
 
     //Seteo el funcionamiento de los botones si y no
     btnSim.addEventListener("click", async () => {
+      showConfirmation();
       updateInvitadoState("confirmado", "invitados", invitado.id);
       toggleButtonState("confirmado");
     });
 
     btnNao.addEventListener("click", async () => {
+      showConfirmation();
       updateInvitadoState("denegado", "invitados", invitado.id);
       toggleButtonState("denegado");
     });
 
     btnNaoSei.addEventListener("click", async () => {
+      showConfirmation();
       updateInvitadoState("pendente", "invitados", invitado.id);
       toggleButtonState("pendente");
     });
@@ -138,15 +169,10 @@ inputBox.addEventListener("input", async () => {
         btnNao.classList.remove("active");
         btnNaoSei.classList.add("active");
       }
-      showConfirmation();
     };
 
     const updateInvitadoState = async (state, table, id) => {
       toggleButtonState(state);
-
-      console.log(
-        `Actualizando estado de ${id} en la tabla ${table} con el estado ${state}`
-      );
 
       const { error } = await supabase
         .from(table)
@@ -157,8 +183,6 @@ inputBox.addEventListener("input", async () => {
         console.error("Error al confirmar invitado:", error);
         return;
       }
-
-      
     };
 
     //Coloco los botones dentro del contenedor de botones
@@ -177,19 +201,20 @@ inputBox.addEventListener("input", async () => {
 
     const titleResponsable = document.createElement("p");
     titleResponsable.textContent = "Confirma em nome de:";
-    titleResponsable.className = "text-center mb-0 mt-2";
+    titleResponsable.className = "text-center m-2 font text-white bg-danger rounded";
     divResultados.appendChild(titleResponsable);
 
     //👶🏻 Si tiene hijos
     if (hijos.length > 0) {
       const containerHijos = document.createElement("div");
-      containerHijos.className = "hijos d-flex flex-row flex-wrap justify-content-center";
+      containerHijos.className =
+        "hijos d-flex flex-row flex-wrap justify-content-center";
 
       hijos.forEach((hijo) => {
         const li = document.createElement("div");
         li.className = "bg-body-tertiary p-1 rounded shadow";
 
-        const hijoNombre = document.createElement("h6");
+        const hijoNombre = document.createElement("p");
         hijoNombre.textContent = hijo.nombre;
         li.appendChild(hijoNombre);
 
@@ -222,7 +247,6 @@ inputBox.addEventListener("input", async () => {
             btnHijoNao.classList.remove("active");
             btnHijoNaoSei.classList.add("active");
           }
-          showConfirmation();
         };
 
         const updateHijoState = async (state, table, id) => {
@@ -242,18 +266,19 @@ inputBox.addEventListener("input", async () => {
         actualizarBotonesHijo(hijo.estado);
 
         btnHijoSim.addEventListener("click", async () => {
-          updateHijoState("confirmado", "hijos", hijo.id)
+          showConfirmation();
+          updateHijoState("confirmado", "hijos", hijo.id);
         });
 
         btnHijoNao.addEventListener("click", async () => {
-          updateHijoState("denegado", "hijos", hijo.id)
+          showConfirmation();
+          updateHijoState("denegado", "hijos", hijo.id);
         });
 
         btnHijoNaoSei.addEventListener("click", async () => {
-          updateHijoState("pendente", "hijos", hijo.id)
+          showConfirmation();
+          updateHijoState("pendente", "hijos", hijo.id);
         });
-
-
 
         botonesHijo.appendChild(btnHijoSim);
         botonesHijo.appendChild(btnHijoNao);
@@ -267,19 +292,18 @@ inputBox.addEventListener("input", async () => {
   }
 });
 
-
 const showConfirmation = () => {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `
-    <div class="position-fixed bg-success p-3 top-0 w-100 text-white rounded" style="z-index: 1000;">
+    <div class="position-fixed bg-success p-3 top-0 start-0 w-100 text-white rounded text-center" style="z-index: 1000;">
       ✅ Alteração salva
     </div>
   `;
 
-  const confirmation = wrapper.firstChild;
+  const confirmation = wrapper.firstElementChild;
   document.body.appendChild(confirmation);
 
   setTimeout(() => {
-    confirmation.remove(); // 👈 Lo elimina del DOM
-  }, 2000); // 2 segundos de visibilidad
+    confirmation.remove();
+  }, 2000);
 };
