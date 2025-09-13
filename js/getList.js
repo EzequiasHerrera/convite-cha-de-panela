@@ -20,6 +20,8 @@ async function carregarLista() {
   let denegados = 0;
   let pendentes = 0;
 
+  invitados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
   for (const invitado of invitados) {
     const containerInvitado = document.createElement("div");
     containerInvitado.className =
@@ -68,6 +70,7 @@ async function carregarLista() {
     return;
   }
 
+  hijos.sort((a, b) => a.nombre.localeCompare(b.nombre));
   for (const hijo of hijos) {
     const containerInvitadoDependent = document.createElement("div");
     containerInvitadoDependent.className =

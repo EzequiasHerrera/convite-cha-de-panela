@@ -72,6 +72,9 @@ inputBox.addEventListener("input", async () => {
   //filtro contiene la palabra escrita en el input
   const filtro = inputBox.value.toLowerCase();
 
+  if (filtro.length === 0){
+    divResultados.innerHTML = "";
+  }
   //Espera mínimo 3 letras antes de buscar
   if (filtro.length < 3) {
     divResultados.innerHTML = "";
@@ -208,7 +211,7 @@ inputBox.addEventListener("input", async () => {
     if (hijos.length > 0) {
       const containerHijos = document.createElement("div");
       containerHijos.className =
-        "hijos d-flex flex-row flex-wrap justify-content-center";
+        "hijos d-flex flex-row flex-wrap gap-2 justify-content-center";
 
       hijos.forEach((hijo) => {
         const li = document.createElement("div");
