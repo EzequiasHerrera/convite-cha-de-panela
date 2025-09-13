@@ -203,12 +203,13 @@ inputBox.addEventListener("input", async () => {
     divResultados.appendChild(container);
 
     const titleResponsable = document.createElement("p");
-    titleResponsable.textContent = "Confirma em nome de:";
-    titleResponsable.className = "text-center m-2 font text-white bg-danger rounded";
-    divResultados.appendChild(titleResponsable);
+    titleResponsable.textContent = "Confirmo também:";
+    titleResponsable.className = "text-center m-2 p-3 font text-white bg-danger rounded";
+    
 
     //👶🏻 Si tiene hijos
     if (hijos.length > 0) {
+      divResultados.appendChild(titleResponsable);
       const containerHijos = document.createElement("div");
       containerHijos.className =
         "hijos d-flex flex-row flex-wrap gap-2 justify-content-center";

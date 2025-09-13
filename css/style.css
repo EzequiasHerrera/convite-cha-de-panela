@@ -22,8 +22,14 @@ a {
   color: inherit;
 }
 
+
+
 .bg-darkorange{
     background-color: #b34408
+}
+
+#buscador {
+  color: black !important;
 }
 
 #finger-pointing {

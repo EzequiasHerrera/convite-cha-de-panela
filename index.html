@@ -39,16 +39,10 @@
         <div class="container text-center col-12 col-md-6 mb-4 mb-md-0">
             <!-- <h2 class="h3 mb-4">🎉 Festa</h2> -->
             <div id="invitation-target" class="mb-4">
-                <img id="invitation-card" src="./static/img/convite.png" alt="Convite"
+                <img id="invitation-card" src="./static/img/convite.jpg" alt="Convite"
                     class="invitation-card img-fluid rounded shadow col-md-6" />
             </div>
-            <p class="mb-2 bg-orange text-darkorange p-2 rounded"><strong>📅 Data:</strong> 18 de Outubro de 2025</p>
-            <p class="mb-4 bg-orange text-darkorange p-2 rounded"><strong>⏰ Horário:</strong> 18:00h</p>
-            <a href="https://maps.app.goo.gl/rQj48yg697kKN5jBA" target="_blank" class="btn btn-success zoom-in">
-                📍 Como Chegar
-            </a>
         </div>
-
 
         <!--Imagen de corazón divisor-->
         <div class="d-block d-md-none d-flex justify-content-center p-3">
@@ -58,6 +52,27 @@
         <!-- Sección 3: Lista & Confirmación -->
         <div class="container col-12 col-md-6">
             <div class="row g-4">
+
+
+                <!-- Card Confirmar Presença -->
+                <div class="col-md-12 my-5">
+                    <div class="card h-100 shadow-sm bg-orange">
+                        <div class="card-body text-center">
+                            <div class="col-md-12">
+                                <div class="text-center text-white font p-2 m-2 bg-darkorange shadow zoom-in">
+                                    <p class="fs-6 p-0 m-0">Confirmar presença até:</p>
+                                    <p class="fs-6 p-0 m-0">10 de Outubro de 2025</p>
+                                    <div id="cuenta-regresiva" class="fs-6 fw-bold text-danger bg-white rounded p-2">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" id="buscador" style="color: black; font-weight: bold;"  class="form-control mb-3 bg-gray-500 border-dark text-black"
+                                placeholder="🔎 Digite seu nome" />
+                            <div class="d-flex flex-column" id="resultados"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Card Lista de Presentes -->
                 <div class="col-md-12">
                     <div class="card h-100 shadow-sm bg-orange">
@@ -76,27 +91,7 @@
                     </div>
                 </div>
 
-                <!-- Card Confirmar Presença -->
-                <div class="col-md-12">
-                    <div class="card h-100 shadow-sm bg-orange">
-                        <div class="card-body text-center">
-                            <p class="card-text text-orange p-3 bg-light shadow text-center">
-                                Digite seu nome para confirmar presença.
-                            </p>
-                            <input type="text" id="buscador" class="form-control mb-3 bg-gray-500"
-                                placeholder="Digite seu nome" />
-                            <div class="d-flex flex-column" id="resultados"></div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-12">
-                    <div class="text-center text-white font p-2 m-2 bg-darkorange shadow zoom-in">
-                        <p class="fs-6 p-0 m-0">Confirmar presença até:</p>
-                        <p class="fs-6 p-0 m-0">10 de Outubro de 2025</p>
-                        <div id="cuenta-regresiva" class="fs-6 fw-bold text-danger bg-white rounded p-2"></div>
-                    </div>
-                </div>
 
                 <div class="col-md-12">
                     <div class="card h-100 shadow-sm bg-orange">
