@@ -18,19 +18,14 @@
         <h1 class="display-6 px-2 fw-bold">Ezequias & Nicole</h1>
         <h2 class="h4 text-muted mb-3 fw-bold">18 de Outubro de 2025</h2>
 
-        <div class="text-center text-white font p-2 mb-1 bg-danger shadow">
-            <p class="fs-5 p-0 m-0">Confirmar presença até:</p>
-            <div id="cuenta-regresiva" class="fs-1 fw-bold text-white zoom-in"></div>
-        </div>
-
-        <div class="d-flex flex-md-row flex-column align-items-center justify-content-center mx-5 h-100 gap-3">
+        <div class="d-flex flex-md-row flex-column align-items-center justify-content-center mx-5 h-100 gap-3 ">
             <p class="text-orange p-3 bg-light shadow text-center zoom-in" style="max-width: 300px">
                 Estamos ansiosos para viver esse momento especial e
                 aguardamos vocês no nosso Chá de Panela para celebrar
                 juntos!
             </p>
             <div class="polaroid shadow zoom-in">
-                <img id="finger-pointing" class=""  alt="finger pointing" src="./static/img/finger.png">
+                <img id="finger-pointing" class="" alt="finger pointing" src="./static/img/finger.png">
                 <img id="polaroid-img" class="img-fluid" src="./static/img/nos1.jpg" alt="nosotros" />
                 <img src="static/img/corazones.png" alt="corazones" class="img-fluid" style="max-width: 60px" />
             </div>
@@ -47,9 +42,9 @@
                 <img id="invitation-card" src="./static/img/convite.png" alt="Convite"
                     class="invitation-card img-fluid rounded shadow col-md-6" />
             </div>
-            <p class="mb-2 bg-danger text-white p-2"><strong>📅 Data:</strong> 18 de Outubro de 2025</p>
-            <p class="mb-4 bg-danger text-white p-2"><strong>⏰ Horário:</strong> 18:00h</p>
-            <a href="https://maps.app.goo.gl/rQj48yg697kKN5jBA" target="_blank" class="btn btn-warning zoom-in">
+            <p class="mb-2 bg-orange text-darkorange p-2 rounded"><strong>📅 Data:</strong> 18 de Outubro de 2025</p>
+            <p class="mb-4 bg-orange text-darkorange p-2 rounded"><strong>⏰ Horário:</strong> 18:00h</p>
+            <a href="https://maps.app.goo.gl/rQj48yg697kKN5jBA" target="_blank" class="btn btn-success zoom-in">
                 📍 Como Chegar
             </a>
         </div>
@@ -88,7 +83,15 @@
                             <h3 class="card-title text-darkorange">
                                 📋 CONFIRMAR PRESENÇA
                             </h3>
-                            <a href="./pages/list.html" class="btn btn-primary mb-2 zoom-in">📝 Ver lista</a>
+
+                            <div class="text-center text-white font p-2 mb-2 bg-darkorange shadow zoom-in">
+                                <p class="fs-6 p-0 m-0">Confirmar presença até:</p>
+                                <p class="fs-6 p-0 m-0">10 de Outubro de 2025</p>
+                                <div id="cuenta-regresiva"
+                                    class="fs-6 fw-bold text-danger bg-white rounded p-2"></div>
+                            </div>
+
+                            <a href="./pages/list.html" class="btn btn-success mb-2 zoom-in">📝 Ver lista</a>
                             <p class="card-text text-orange p-3 bg-light shadow text-center">
                                 Digite seu nome para confirmar presença.
                             </p>
@@ -102,18 +105,15 @@
                 <div class="col-md-12">
                     <div class="card h-100 shadow-sm bg-orange">
                         <div class="card-body text-center">
-                            <h3 class="card-title text-darkorange">
-                                🥰 NOSSO PIX
-                            </h3>
-                            <p class="card-text p-3 bg-light shadow text-center">
-                                (Chave Pix: nicolegerkee@gmail.com)
-                            </p>
                             <p class="card-text text-orange p-3 bg-light shadow text-center">
                                 Não vai conseguir ir ou não dá tempo de
                                 comprar um presente e quer nos abençoar?
                                 Aqui está nosso pix:
                             </p>
-                            <img src="static/img/QR.jpg" class="img-fluid w-50 rounded shadow zoom-in" alt="pix" />
+                            <img src="static/img/QR.jpg" class="img-fluid w-50 rounded shadow zoom-in m-3" alt="pix" />
+                            <p class="card-text p-3 bg-light shadow text-center">
+                                (Chave Pix: nicolegerkee@gmail.com)
+                            </p>
                         </div>
                     </div>
                 </div>

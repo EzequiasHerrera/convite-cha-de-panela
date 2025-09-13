@@ -22,6 +22,10 @@ a {
   color: inherit;
 }
 
+.bg-darkorange{
+    background-color: #b34408
+}
+
 #finger-pointing {
   position: fixed;
   top: 5rem;
@@ -80,7 +84,7 @@ h4 {
 }
 
 .text-darkorange {
-  color: #39251a;
+  color: #934216;
   font-family: "Perandory Regular", sans-serif;
   letter-spacing: 3px;
 }

@@ -24,7 +24,7 @@ const actualizarCuenta = () => {
   contador.textContent = `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
 };
 const intervalo = setInterval(actualizarCuenta, 1000);
-actualizarCuenta(); // Ejecutar una vez al cargar
+// actualizarCuenta(); // Ejecutar una vez al cargar
 //==============================================
 
 const showNextPicture = () => {
