@@ -5,6 +5,7 @@ async function carregarLista() {
   );
 
   const list = document.getElementById("orderlist");
+  const listDependent = document.getElementById("orderlistdependent");
 
   const { data: invitados, error } = await supabase
     .from("invitados")
@@ -18,7 +19,6 @@ async function carregarLista() {
   let confirmados = 0;
   let denegados = 0;
   let pendentes = 0;
-
 
   for (const invitado of invitados) {
     const containerInvitado = document.createElement("div");
@@ -59,8 +59,56 @@ async function carregarLista() {
     list.appendChild(containerInvitado);
   }
 
+  const { data: hijos, errordependent } = await supabase
+    .from("hijos")
+    .select("*");
+
+  if (errordependent) {
+    listDependent.innerHTML = "Erro ao carregar convidados";
+    return;
+  }
+
+  for (const hijo of hijos) {
+    const containerInvitadoDependent = document.createElement("div");
+    containerInvitadoDependent.className =
+      "invitado d-flex flex-row justify-content-between align-items-start p-1 rounded";
+
+    const nombre = document.createElement("p");
+    nombre.textContent = hijo.nombre;
+    containerInvitadoDependent.appendChild(nombre);
+
+    const status = document.createElement("p");
+
+    switch (hijo.estado) {
+      case "pendente":
+        status.textContent = "Pendente";
+        status.className = "bg-secondary p-2 rounded text-white";
+        containerInvitadoDependent.appendChild(status);
+        pendentes++;
+        break;
+
+      case "denegado":
+        status.textContent = "Não vai";
+        status.className = "bg-danger p-2 rounded text-white";
+        containerInvitadoDependent.appendChild(status);
+        denegados++;
+        break;
+
+      case "confirmado":
+        status.textContent = "Vai";
+        status.className = "bg-success p-2 rounded text-white";
+        containerInvitadoDependent.appendChild(status);
+        confirmados++;
+        break;
+      default:
+        break;
+    }
+
+    listDependent.appendChild(containerInvitadoDependent);
+  }
+
   const total = document.getElementById("total");
-  total.textContent = `Vão: ${confirmados} Não vão: ${denegados} Ainda não sabem: ${pendentes}`
+  total.textContent = `Vão: ${confirmados} Não vão: ${denegados} Ainda não sabem: ${pendentes}`;
 }
 
 carregarLista();
