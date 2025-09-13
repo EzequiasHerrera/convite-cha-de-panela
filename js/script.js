@@ -138,6 +138,7 @@ inputBox.addEventListener("input", async () => {
         btnNao.classList.remove("active");
         btnNaoSei.classList.add("active");
       }
+      showConfirmation();
     };
 
     const updateInvitadoState = async (state, table, id) => {
@@ -221,6 +222,7 @@ inputBox.addEventListener("input", async () => {
             btnHijoNao.classList.remove("active");
             btnHijoNaoSei.classList.add("active");
           }
+          showConfirmation();
         };
 
         const updateHijoState = async (state, table, id) => {
@@ -270,7 +272,7 @@ const showConfirmation = () => {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `
     <div class="position-fixed bg-success p-3 top-0 w-100 text-white rounded" style="z-index: 1000;">
-      ✅ Cambio realizado
+      ✅ Alteração salva
     </div>
   `;
 
